@@ -1,0 +1,60 @@
+<hr>
+
+
+<hr>
+
+{% assign preparedArray = 'test 1,test 2,test 3,test 4,test 5,test 6,test 7,test 8' | split: ',' %}
+
+<ul>
+  {% for item in preparedArray %}
+    {% if forloop.index == 5 %}
+      {% continue %}
+    {% endif %}
+    <li
+      class="{% cycle 'odd', 'even' %}"
+      {% if forloop.first %}
+        style="background: tomato"
+      {% endif %}
+      {% if forloop.last %}
+        style="background: green"
+      {% endif %}
+    >
+      <span>forloop.index: {{ forloop.index }}</span>
+      <span>forloop.length: {{ forloop.length }}</span>
+
+      {{ item }}
+    </li>
+  {% endfor %}
+</ul>
+
+{% style %}
+  .odd {
+    background-color: gainsboro;
+  }
+
+  .even {
+    background-color: bisque;
+  }
+{% endstyle %}
+
+
+
+{% for item in array %}
+    {% if forloop.index == 5 %}
+      {% continue %}
+    {% endif %}
+    <li
+      class="{% cycle 'odd', 'even' %}"
+      {% if forloop.first %}
+        style="background: tomato"
+      {% endif %}
+      {% if forloop.last %}
+        style="background: green"
+      {% endif %}
+    >
+      <span>forloop.index: {{ forloop.index }}</span>
+      <span>forloop.length: {{ forloop.length }}</span>
+
+      {{ item }}😗
+    </li>
+  {% endfor %}

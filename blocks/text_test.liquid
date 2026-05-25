@@ -1,0 +1,28 @@
+<div {{ block.shopify_attributes }}>
+  {{ block.settings.heading }}
+</div>
+
+{% schema %}
+{
+  "name": "My test theme block",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "heading",
+      "default": "test"
+    },
+    {
+      "type": "color",
+      "id": "body_text",
+      "label": "Body text",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "My test theme block"
+    }
+  ]
+}
+{% endschema %}

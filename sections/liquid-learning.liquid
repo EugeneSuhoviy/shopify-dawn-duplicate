@@ -1,0 +1,106 @@
+<h1>test1</h1>
+
+<input
+  type="checkbox"
+  {% if section.settings.show_block %}
+    checked
+  {% endif %}
+>
+
+{% if section.settings.show_block %}
+  <div style="background: {{ section.settings.body_text }}">BLOCK HERE</div>
+{% endif %}
+
+{{ section.settings.heading }}
+
+<h2>product</h2>
+
+{% comment %} {{ section.settings.product }} // return handle {% endcomment %}
+
+{% assign product = all_products[section.settings.product] %}
+
+{{ product.title }}
+
+<br>
+
+<hr>
+{% for block in section.blocks %}
+  {{ block.type }}
+
+  {% case block.type %}
+    {% when 'text' %}
+      <div {{ block.shopify_attributes }}>
+        {{ block.settings.my_text }}
+      </div>
+
+    {% when 'image' %}
+      <div {{ block.shopify_attributes }}>
+        {{ block.settings.image | image_url: width: 300 | image_tag }}
+      </div>
+  {% endcase %}
+{% endfor %}
+
+
+{% schema %}
+{
+  "name": "My test section",
+
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_block",
+      "label": "Show announcement",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "heading",
+      "default": "test"
+    },
+    {
+      "type": "color",
+      "id": "body_text",
+      "label": "Body text",
+      "default": "#000000"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "My test section"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "my_text",
+          "label": "text",
+          "default": "Hello, text!"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,34 @@
+
+<hr>
+
+{% assign tags = 'sale,new,featured' | split: ',' %}
+
+<div>
+  tags[0]: <code>{{ tags[0] }}</code>
+</div>
+{{ tags.first }}
+{{ tags.last }}
+{{ tags.size }}
+
+<ul>
+  {% for tag in tags %}
+    <li>{{ tag }}</li>
+  {% endfor %}
+</ul>
+
+{% assign more_tags = "hot,trending" | split: "," %}
+
+{% assign all_tags = tags | concat: more_tags %}
+
+{% comment %} {{ more_tags }} {% endcomment %}
+
+---
+
+<ul>
+  {% for tag in all_tags %}
+    <li>{{ tag }}</li>
+  {% endfor %}
+</ul>
+
+
+<hr>

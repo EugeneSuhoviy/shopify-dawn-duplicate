@@ -1,0 +1,25 @@
+<hr>
+
+<h3>learn-ex-01-output</h3>
+
+
+<div>✅ {{ page_title }}</div>
+<div>✅ {{ shop.name | upcase }}</div>
+
+<!-- html comment -->
+
+{%- if page_title == 'shopy plus' -%}
+    <div>✅ {{ shop.name | upcase }}</div>
+{%- endif -%}
+
+{% comment %} 
+ comment liquid code
+ <div>✅ {{ shop.name | upcase }}</div>
+ test comment 
+ line 2
+ line 3
+{% endcomment %}
+
+<hr>
+
+

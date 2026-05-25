@@ -1,0 +1,29 @@
+<hr>
+
+<h3>learn-ex-03-variables</h3>
+
+{% assign title = 'Dawn Theme' %}
+
+<h2>{{ title }}</h2>
+
+{%- liquid
+  assign name = 'Eugene'
+  assign age = 37
+  assign is_adult = true
+-%}
+
+{% capture user_data %}
+  {% if is_adult %}
+  <span>name: {{ name }}</span><br>
+  <span>age: {{ age }}</span>
+{% else %}
+  <span>You are not adult yet!</span>
+{% endif %}
+{% endcapture %}
+
+
+<div>
+    {{ user_data  }}
+</div>
+
+<hr>

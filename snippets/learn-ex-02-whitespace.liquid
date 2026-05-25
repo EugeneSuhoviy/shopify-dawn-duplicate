@@ -1,0 +1,38 @@
+<hr>
+learn-ex-02-whitespace
+
+
+<!-- Без whitespace control -->
+<ul>
+  {% for i in (1..3) %}
+    <li>item</li>
+  {% endfor %}
+</ul>
+
+<!-- З whitespace control -->
+<ul>
+  {%- for i in (1..3) -%}
+    <li>index: {{ i }}</li>
+  {%- endfor -%}
+</ul>
+
+
+{% comment %} Так це виглядає в html 👇 {% endcomment %}
+
+{% comment %} <!-- Без whitespace control -->
+<ul>
+  
+    <li>item</li>
+  
+    <li>item</li>
+  
+    <li>item</li>
+  
+</ul>
+
+<!-- З whitespace control -->
+<ul><li>index: 1</li><li>index: 2</li><li>index: 3</li></ul>
+
+ {% endcomment %}
+
+<hr>

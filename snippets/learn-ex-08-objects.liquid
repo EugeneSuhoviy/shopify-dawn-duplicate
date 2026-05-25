@@ -1,0 +1,25 @@
+<hr>
+
+<div>name: {{ shop.name }}</div>
+<div>currency: {{ shop.currency }}</div>
+<div>domain: {{ shop.domain }}</div>
+
+{% assign product = all_products['the-collection-snowboard-oxygen'] %}
+
+<div>title: {{ product.title }}</div>
+<div>price: {{ product.price | money }}</div>
+<div>available: {{ product.available }}</div>
+<div>vendor: {{ product.vendor }}</div>
+
+{{ product.featured_image | image_url: width: 300 | image_tag }}
+
+<h2>CART</h2>
+<div>cart item count: {{ cart.item_count }}</div>
+<div>cart total_price: {{ cart.total_price | money }}</div>
+
+{% for variant in product.variants %}
+    <div>variant name: {{ variant.title }}</div>
+    <div>variant price: {{ variant.price | money }}</div>
+
+
+{% endfor %}

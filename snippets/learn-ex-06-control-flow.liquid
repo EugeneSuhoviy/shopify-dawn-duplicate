@@ -1,0 +1,39 @@
+<hr>
+
+{% assign product = all_products['the-collection-snowboard-liquid'] %}
+
+{% assign is_available = product.available %}
+
+{% assign inventory_quantity = 20 %}
+
+{% if is_available %}
+  <div>Product is avilable</div>
+
+{% elsif inventory_quantity > 0 %}
+
+{% else %}
+  <div>Product is NOT avilable</div>
+{% endif %}
+
+{% unless is_available %}
+  <div>Product is NOT avilable</div>
+{% endunless %}
+
+{% assign categories = 'shoes,shirts,pants' | split: ',' %}
+
+{% for item in categories %}
+  {% case item %}
+    {% when 'shoes' %}
+      It is shoes
+    {% when 'shirts' %}
+      It is shirts
+    {% else %}
+      nothing
+  {% endcase %}
+
+  {% if item contains 'sho' %}
+    it is here
+  {% endif %}
+{% endfor %}
+
+

@@ -1,0 +1,19 @@
+# Theme settings data — managed via Theme Editor on the store, not pushed
+config/settings_data.json
+
+# Local documentation — no need on the store
+gear-store-tz.md
+liquid.md
+progress.md
+OLD_CLAUDE.md
+<!-- CLAUDE.md -->
+
+# macOS system files
+.DS_Store
+
+# Editor files
+.idea/*
+.vscode/*
+*.code-workspace
+
+

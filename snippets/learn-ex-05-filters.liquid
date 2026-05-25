@@ -1,0 +1,35 @@
+<hr>
+
+<h3>learn-ex-05-filters.liquid</h3>
+
+
+{{ "eugene suhoviy" | upcase | replace: '-', ' ' | escape}}
+<div>{{ " this is a very long string here and there" | truncate: 15}}</div>
+
+
+{{ '<p>Text to be escaped.</p>'}}
+{{ '<p>Text to be escaped.</p>' | escape }}
+
+<div>{{ 10 | minus: 8}}</div>
+
+<div>{{ 2 | times: 2}}</div>
+
+
+{% assign tags = 'sale,new,featured' | split: ',' %}
+
+{{ tags.size }}
+
+{{ tags | sort }}
+
+
+<div>unsorted tags: {{ tags | join: ' - ' }}</div> 
+<div> sorted tags: {{ tags | join: ' - ' | sort}}</div>
+
+
+<div> {{ 1000 | money }} </div>
+
+
+
+
+
+<hr>
