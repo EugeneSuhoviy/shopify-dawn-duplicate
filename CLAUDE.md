@@ -58,7 +58,7 @@ config/          — settings_schema.json, settings_data.json
 Mark tasks with `[x]` when done. When I ask what's next — use this list.
 
 ### Section 1 — Setup
-- [ ] 1.1 Clone and run Dawn
+- [x] 1.1 Clone and run Dawn
 - [ ] 1.2 Populate store with content
 
 ### Section 2 — Layout
