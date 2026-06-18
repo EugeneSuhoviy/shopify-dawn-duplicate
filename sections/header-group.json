@@ -11,12 +11,61 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "custom_announcement_bar_GJxTe6": {
+      "type": "custom-announcement-bar",
+      "blocks": {
+        "announcement_yrVPV7": {
+          "type": "announcement",
+          "settings": {
+            "text": "🎁 Welcome back! Use code RETURN10",
+            "url": ""
+          }
+        },
+        "announcement_89nT63": {
+          "type": "announcement",
+          "settings": {
+            "text": "⚡ 20% off climbing gear — ends Sunday",
+            "url": "shopify://collections/hydrogen"
+          }
+        },
+        "announcement_AdfVeN": {
+          "type": "announcement",
+          "settings": {
+            "text": "⛺ New Camping collection just dropped",
+            "url": "shopify://collections"
+          }
+        },
+        "announcement_4kHTfi": {
+          "type": "announcement",
+          "settings": {
+            "text": "🚚 Free shipping on orders over $75",
+            "url": "shopify://collections/climbing"
+          }
+        }
+      },
+      "block_order": [
+        "announcement_yrVPV7",
+        "announcement_89nT63",
+        "announcement_AdfVeN",
+        "announcement_4kHTfi"
+      ],
+      "name": "Custom announcement bar",
+      "settings": {
+        "is_autoplay": true,
+        "change_slides_speed": 5,
+        "visibility": "all",
+        "text_color": "#482323",
+        "bg_text": "#e9c9c9"
+      }
+    },
     "liquid_learning_RWhMYD": {
       "type": "liquid-learning",
       "blocks": {
         "text_LY7xq7": {
           "type": "text",
-          "settings": {}
+          "settings": {
+            "my_text": "Hello, text!"
+          }
         },
         "image_gYH3BE": {
           "type": "image",
@@ -29,6 +78,7 @@
         "text_LY7xq7",
         "image_gYH3BE"
       ],
+      "disabled": true,
       "name": "My test section1",
       "settings": {
         "show_block": true,
@@ -40,15 +90,39 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
+        "announcement_KqmpJt": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store1",
+            "link": ""
+          }
+        },
+        "announcement_ihzpw9": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store2",
+            "link": ""
+          }
+        },
+        "announcement_VFgCkM": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store3",
+            "link": ""
+          }
+        },
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "Welcome to our store4",
             "link": ""
           }
         }
       },
       "block_order": [
+        "announcement_KqmpJt",
+        "announcement_ihzpw9",
+        "announcement_VFgCkM",
         "announcement-bar-0"
       ],
       "settings": {
@@ -82,6 +156,7 @@
     }
   },
   "order": [
+    "custom_announcement_bar_GJxTe6",
     "liquid_learning_RWhMYD",
     "announcement-bar",
     "header"

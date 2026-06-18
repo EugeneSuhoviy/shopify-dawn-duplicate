@@ -1,0 +1,175 @@
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+  assign visibility = section.settings.visibility
+  assign show_bar = false
+
+  if visibility == 'all'
+    assign show_bar = true
+  elsif visibility == 'logged_in' and customer
+    assign show_bar = true
+  elsif visibility == 'logged_out' and customer == null
+    assign show_bar = true
+  endif
+%}
+
+{% if show_bar %}
+  <div class="custom-announcement-bar" data-announcement-bar>
+    <button type="button" aria-label="Close" class="custom-announcement-bar__btn" data-announcement-close>X</button>
+
+    <div class="swiper custom-announcement-bar__inner">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div
+            {{ block.shopify_attributes }}
+            class="swiper-slide custom-announcement-bar__item"
+            style="background-color: {{ section.settings.bg_text }}"
+          >
+            <a
+              href="{{ block.settings.url | default: '#' }}"
+              class="custom-announcement-bar__link"
+              ><span style="color: {{ section.settings.text_color }}">{{ block.settings.text }}</span></a
+            >
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .swiper-button-next,
+  .swiper-button-prev {
+    --swiper-navigation-size: 20px;
+    --swiper-theme-color: #fff;
+  }
+
+  .custom-announcement-bar {
+    position: relative;
+  }
+
+  .custom-announcement-bar__item {
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  .custom-announcement-bar__inner {
+    width: 100%;
+  }
+
+  .custom-announcement-bar__btn {
+    position: absolute;
+    z-index: 10;
+    right: 50px;
+  }
+
+  .custom-announcement-bar__link {
+    text-decoration: none;
+  }
+{% endstylesheet %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (sessionStorage.getItem('hide_bar')) {
+      document.querySelector('[data-announcement-bar]').style.display = 'none';
+      return;
+    }
+
+    const swiper = new Swiper('.swiper', {
+      // Optional parameters
+      loop: {{ section.settings.is_autoplay }},
+
+      autoplay: {
+        delay: {{ section.settings.change_slides_speed | times: 1000 }},
+      },
+
+      // Navigation arrows
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+
+    const btn = document.querySelector('[data-announcement-close]');
+
+    btn.addEventListener('click', () => {
+      sessionStorage.setItem('hide_bar', true);
+      document.querySelector('[data-announcement-bar]').style.display = 'none';
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Custom announcement bar",
+  "class": "custom-announcement-bar",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "is_autoplay",
+      "default": false,
+      "label": "Autoplay"
+    },
+    {
+      "type": "range",
+      "id": "change_slides_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Change every",
+      "default": 5
+    },
+    {
+      "type": "select",
+      "id": "visibility",
+      "label": "Visibility",
+      "options": [
+        { "value": "all", "label": "Everyone" },
+        { "value": "logged_in", "label": "Logged in users" },
+        { "value": "logged_out", "label": "Logged out users" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "bg_text",
+      "label": "Background color",
+      "default": "#000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "announcement bar",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Announcement text"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom announcement bar"
+    }
+  ]
+}
+{% endschema %}

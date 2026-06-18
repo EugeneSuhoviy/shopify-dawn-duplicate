@@ -25,8 +25,12 @@
   {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
 
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
+  {{ 'component-quick-view.css' | asset_url | stylesheet_tag }}
   {{ 'quick-order-list.css' | asset_url | stylesheet_tag }}
   {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+  {{ 'badges.css' | asset_url | stylesheet_tag }}
+  {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+
 {%- endunless -%}
 {%- if card_product and card_product != empty -%}
   {%- liquid
@@ -41,9 +45,37 @@
     endif
   -%}
   <div class="card-wrapper product-card-wrapper underline-links-hover">
-    
-    <h1>TEST1</h1>
-    
+    <div class="badges">
+      {%- if card_product.tags contains 'new' -%}
+        {% assign badge_label = 'products.badge.new' | t %}
+        {% render 'custom-badge', label: badge_label, type: 'new' %}
+      {%- endif -%}
+
+      {% if card_product.compare_at_price > card_product.price and card_product.available %}
+        {% assign badge_label = 'products.badge.sale' | t %}
+        {% render 'custom-badge', label: badge_label, type: 'sale' %}
+      {% endif %}
+
+      {% unless card_product.available %}
+        {% assign badge_label = 'products.badge.out_of_stock' | t %}
+        {% render 'custom-badge', label: badge_label, type: 'outofstock' %}
+      {% endunless %}
+
+      {% if card_product.compare_at_price > card_product.price %}
+        {% assign discount = card_product.compare_at_price
+          | minus: card_product.price
+          | times: 100.0
+          | divided_by: card_product.compare_at_price
+          | round
+        %}
+
+        {% if discount %}
+          {% capture discount_label %}–{{ discount }}%{% endcapture %}
+          {% render 'custom-badge', label: discount_label, type: 'discount' %}
+        {% endif %}
+      {% endif %}
+    </div>
+
     <div
       class="
         card card--{{ settings.card_style }}
@@ -569,7 +601,15 @@
           {%- endif -%}
         </div>
       </div>
+
+      <button type="button" class="quick-view" id="open-dialog-{{ card_product.id }}">QUICK VIEW</button>
     </div>
+
+    <dialog id="dialog-{{ section_id }}-{{ card_product.id }}">
+      <p>HTML тег dialog створює діалогове вікно.</p>
+      <div class="content"></div>
+      <p><button id="close-dialog-{{ section_id }}-{{ card_product.id }}">Закрити вікно</button></p>
+    </dialog>
   </div>
 {%- else -%}
   {%- liquid
@@ -625,3 +665,33 @@
     </div>
   </div>
 {%- endif -%}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const dialog = document.getElementById('dialog-{{ section_id }}-{{ card_product.id }}');
+
+    document.getElementById('open-dialog-{{ card_product.id }}').onclick = function () {
+      fetch(`/products/{{card_product.title | handle}}?view=quick-view`)
+        .then((response) => {
+          if (!response.ok) throw new Error('Network response failure');
+          return response.text();
+        })
+        .then((htmlMarkup) => {
+          const responseHTML = new DOMParser().parseFromString(htmlMarkup, 'text/html');
+          const productElement = responseHTML.getElementsByClassName('product');
+
+          dialog.getElementsByClassName('content')[0].appendChild(productElement[0]);
+        })
+        .catch((error) => {
+          console.error('Quick View Error:', error);
+          dialog.getElementsByClassName('content')[0].innerHTML = '<div class="qv-error">Could not load quick view. Please try again.</div>';
+        });
+
+      dialog.showModal();
+    };
+
+    document.getElementById('close-dialog-{{ section_id }}-{{ card_product.id }}').onclick = function () {
+      dialog.close();
+    };
+  });
+</script>

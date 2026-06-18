@@ -114,6 +114,11 @@
     "collection_title": "Your collection's name"
   },
   "products": {
+    "badge": {
+      "new": "New",
+      "sale": "Sale",
+      "out_of_stock": "Out of stock"
+    },
     "product": {
       "add_to_cart": "Add to cart",
       "choose_options": "Choose options",

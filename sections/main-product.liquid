@@ -15,6 +15,7 @@
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+  {{ 'add-to-cart-sticky.css' | asset_url | stylesheet_tag }}
 
   {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
@@ -41,6 +42,8 @@
 
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'add-to-cart-sticky.js' | asset_url }}" defer="defer"></script>
+
   {%- if product.quantity_price_breaks_configured? -%}
     <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
@@ -74,7 +77,6 @@
 
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <div class="page-width">
-    ccccc
     <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
       <div class="grid__item product__media-wrapper">
         {% render 'product-media-gallery', variant_images: variant_images %}
@@ -675,6 +677,32 @@
                 </product-recommendations>
               {%- when 'icon-with-text' -%}
                 {% render 'icon-with-text', block: block %}
+
+              {%- when 'specs' -%}
+                <h2>Specifications</h2>
+                <table>
+                  {% unless product.metafields.custom.weight_grams == blank %}
+                    {% assign weight = product.metafields.custom.weight_grams %}
+                    <tr>
+                      <th>Weight</th>
+                      <td>{{ weight.value | append: 'g' }}</td>
+                    </tr>
+                  {% endunless %}
+                  {% unless product.metafields.custom.material == blank %}
+                    {% assign material = product.metafields.custom.material %}
+                    <tr>
+                      <th>Material</th>
+                      <td>{{ material }}</td>
+                    </tr>
+                  {% endunless %}
+                  {% unless product.metafields.custom.temperature_rating == blank %}
+                    {% assign temperature_rating = product.metafields.custom.temperature_rating %}
+                    <tr>
+                      <th>Temperature</th>
+                      <td>{{ temperature_rating | append: '°C' }}</td>
+                    </tr>
+                  {% endunless %}
+                </table>
             {%- endcase -%}
           {%- endfor -%}
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">
@@ -739,6 +767,23 @@
   </div>
 </product-info>
 
+<h3>Related Products</h3>
+
+
+<add-to-cart-sticky class="atc-sticky hidden">
+  <div class="atc-sticky__left">
+    <div class="atc-sticky__info">
+      <span class="atc-sticky__title"></span>{{ product.title }} /
+      <span class="atc-sticky__options">{{ product.selected_or_first_available_variant.title }}</span>
+    </div>
+
+    <div class="atc-sticky__price">Price: {{ product.selected_or_first_available_variant.price | money }}</div>
+  </div>
+  <button class="atc-sticky__button shopify-payment-button__button shopify-payment-button__button--unbranded">
+    Add
+  </button>
+</add-to-cart-sticky>
+
 {% schema %}
 {
   "name": "t:sections.main-product.name",
@@ -783,6 +828,11 @@
     {
       "type": "title",
       "name": "t:sections.main-product.blocks.title.name",
+      "limit": 1
+    },
+    {
+      "type": "specs",
+      "name": "Specs",
       "limit": 1
     },
     {

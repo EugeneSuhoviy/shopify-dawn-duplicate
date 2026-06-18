@@ -1,0 +1,12 @@
+{% comment %}
+  Renders a product badge
+
+  Accepts:
+  - type: {String}
+  - label {String}
+
+  Usage:
+  {% render 'custom-badge', type: 'New', label: 'New' %}
+{% endcomment %}
+
+<div class="badge badge__{{ type }}">{{ label | capitalize }}</div>
